@@ -1,0 +1,363 @@
+{
+    "dialog_id": "58461522-d6dd-4465-8bb9-31a55babf367",
+    "task": {
+      "recipeId": "amzn1.alexa.kitchen.document.sidechef.pdid.MzgyNg==",
+      "recipeURL": "https://www.sidechef.com/recipes/3826/Soft_Boiled_Egg/",
+      "dateCreated": 1483540514000,
+      "dateModified": 1617193945297,
+      "author": {
+        "name": "SideChef",
+        "avatar": "https://www.sidechef.com/profile/small/56ba8d095267dd1c4ca7fa5f.jpeg",
+        "bio": "Created from scratch in the SideChef Kitchen, where recipe inspiration and ingredient experimentation are a way of life.",
+        "authorType": "BLOGGER"
+      },
+      "authors": [],
+      "rating": {
+        "ratingValue": 5,
+        "ratingCount": 436,
+        "reviewCount": 0,
+        "bestRating": 5,
+        "worstRating": 5,
+        "willMakeAgainPercent": null
+      },
+      "selectReviews": [],
+      "keywords": [
+        "soy-free",
+        "sulphite free",
+        "budget-friendly",
+        "american",
+        "fodmap free",
+        "low carb",
+        "no sugar added",
+        "keto friendly",
+        "whole30",
+        "pescatarian",
+        "sidechef original",
+        "tomato-free",
+        "lupine free",
+        "kid-friendly",
+        "low sodium",
+        "low potassium",
+        "easy",
+        "pork free",
+        "brunch",
+        "mustard free",
+        "breakfast",
+        "tree nut-free",
+        "fish free",
+        "mollusk free",
+        "snack",
+        "specific carbs",
+        "sesame free",
+        "kosher",
+        "sugar conscious",
+        "how-to",
+        "alcohol free",
+        "crustacean free",
+        "stove",
+        "vegetarian",
+        "grain-free",
+        "red meat free",
+        "paleo",
+        "shellfish free",
+        "no oil added",
+        "soy free",
+        "wheat free",
+        "mediterranean",
+        "kidney friendly",
+        "gluten free",
+        "dairy free",
+        "milk free",
+        "tree nut free",
+        "peanut free",
+        "celery free",
+        "low-sugar"
+      ],
+      "recipe": {
+        "displayName": "Soft Boiled Egg",
+        "description": null,
+        "canonicalName": "Soft Boiled Egg",
+        "prepTimeMinutes": null,
+        "cookTimeMinutes": null,
+        "totalTimeMinutes": 5,
+        "cookingMethod": null,
+        "difficultyLevel": null,
+        "images": [
+          {
+            "url": "https://m.media-amazon.com/images/S/alexa-kitchen-msa-na-prod/recipes/sidechef/b05aa9b76dfddebf36c9bbe056c05d5a0148761fd667a540c751cde67918b4bf.jpg",
+            "hdURL": null,
+            "fourKURL": null,
+            "description": "Soft Boiled Egg",
+            "type": "UNKNOWN"
+          }
+        ],
+        "videos": [],
+        "tools": [],
+        "cuisines": [
+          "American"
+        ],
+        "meals": null,
+        "courses": null,
+        "occasions": null,
+        "diets": [
+          "Low-Carb",
+          "Paleo",
+          "Pescatarian",
+          "Grain-Free",
+          "Tree Nut-Free",
+          "Gluten-Free",
+          "Vegetarian",
+          "Fish-Free",
+          "Whole30",
+          "Keto",
+          "Soy-Free",
+          "Dairy-Free",
+          "Peanut-Free",
+          "Tomato-Free",
+          "Sugar-Free",
+          "Shellfish-Free"
+        ],
+        "trimmed": false,
+        "difficulty": null,
+        "servings": 2,
+        "components": [
+          {
+            "name": null
+          }
+        ],
+        "ingredients": [
+          {
+            "displayText": "2.0 Egg",
+            "staple": false,
+            "ingredient": "egg",
+            "ingredientId": "type_01123_00",
+            "quantity": 2,
+            "unit": "COUNT",
+            "preparation": null,
+            "brand": null,
+            "asinOverride": null,
+            "images": [],
+            "componentIndex": 0,
+            "productOverride": null
+          }
+        ],
+        "instructions": [
+          {
+            "stepNumber": 1,
+            "componentStepNumber": 1,
+            "stepTitle": null,
+            "stepText": "Bring a saucepan of water to a roiling boil.",
+            "stepDurationSeconds": null,
+            "stepIngredients": [],
+            "stepImages": [
+              {
+                "url": "https://m.media-amazon.com/images/S/alexa-kitchen-msa-na-prod/recipes/sidechef/81a32d82c4e06a40c47114767171e1fdd2f6e4dd2afbedb359e2e323c142a13c.jpg",
+                "hdURL": null,
+                "fourKURL": null,
+                "description": "Bring a saucepan of water to a roiling boil.",
+                "type": "UNKNOWN"
+              }
+            ],
+            "stepTips": [],
+            "stepSpecificVideos": [],
+            "stepVideoTimestamp": null,
+            "stepVideoEndTimestamp": null,
+            "stepPrompts": [
+              "Bring a saucepan of water to a roiling boil."
+            ],
+            "componentIndex": 0
+          },
+          {
+            "stepNumber": 2,
+            "componentStepNumber": 2,
+            "stepTitle": null,
+            "stepText": "Reduce water to a rapid simmer. Carefully place Egg in the water.",
+            "stepDurationSeconds": null,
+            "stepIngredients": [
+              {
+                "displayText": "2 Egg",
+                "staple": false,
+                "ingredient": "Egg",
+                "ingredientId": null,
+                "quantity": 2,
+                "unit": "COUNT",
+                "preparation": null,
+                "brand": null,
+                "asinOverride": null,
+                "images": [],
+                "componentIndex": 0,
+                "productOverride": null
+              }
+            ],
+            "stepImages": [
+              {
+                "url": "https://m.media-amazon.com/images/S/alexa-kitchen-msa-na-prod/recipes/sidechef/a3a9c143da8d8b8944d01a4860f46bb1c35946d5d219db9acab80f92f061a371.jpg",
+                "hdURL": null,
+                "fourKURL": null,
+                "description": "Reduce water to a rapid simmer. Carefully place Egg in the water.",
+                "type": "UNKNOWN"
+              }
+            ],
+            "stepTips": [],
+            "stepSpecificVideos": [],
+            "stepVideoTimestamp": null,
+            "stepVideoEndTimestamp": null,
+            "stepPrompts": [
+              "Reduce water to a rapid simmer. Carefully place Egg in the water."
+            ],
+            "componentIndex": 0
+          },
+          {
+            "stepNumber": 3,
+            "componentStepNumber": 3,
+            "stepTitle": null,
+            "stepText": "Cook the eggs for 4 minutes.",
+            "stepDurationSeconds": 240,
+            "stepIngredients": [],
+            "stepImages": [
+              {
+                "url": "https://m.media-amazon.com/images/S/alexa-kitchen-msa-na-prod/recipes/sidechef/a414a1d7dac5fdfc6f4069460bce3fdf47cd1d8e5327f02149dcda09d632a450.jpg",
+                "hdURL": null,
+                "fourKURL": null,
+                "description": "Cook the eggs for 4 minutes.",
+                "type": "UNKNOWN"
+              }
+            ],
+            "stepTips": [],
+            "stepSpecificVideos": [],
+            "stepVideoTimestamp": null,
+            "stepVideoEndTimestamp": null,
+            "stepPrompts": [
+              "Cook the eggs for 4 minutes."
+            ],
+            "componentIndex": 0
+          },
+          {
+            "stepNumber": 4,
+            "componentStepNumber": 4,
+            "stepTitle": null,
+            "stepText": "Gently remove eggs, slice off the top, and serve immediately.",
+            "stepDurationSeconds": null,
+            "stepIngredients": [],
+            "stepImages": [
+              {
+                "url": "https://m.media-amazon.com/images/S/alexa-kitchen-msa-na-prod/recipes/sidechef/3b03a040cbbac76fb3e9b0265c908a648b29185f11b11fda83cb6f10120ffd48.jpg",
+                "hdURL": null,
+                "fourKURL": null,
+                "description": "Gently remove eggs, slice off the top, and serve immediately.",
+                "type": "UNKNOWN"
+              }
+            ],
+            "stepTips": [],
+            "stepSpecificVideos": [],
+            "stepVideoTimestamp": null,
+            "stepVideoEndTimestamp": null,
+            "stepPrompts": [
+              "Gently remove eggs, slice off the top, and serve immediately."
+            ],
+            "componentIndex": 0
+          }
+        ],
+        "nutrition": null,
+        "types": [
+          "STANDARD"
+        ]
+      },
+      "confidence": null,
+      "relatedDocumentQueries": []
+    },
+    "dialog": [
+      {
+        "intent": "StartStepsIntent",
+        "current_step": 0,
+        "user": "i would like to start this chat",
+        "system": "Let the culinary adventure begin! Step 1: Bring a saucepan of water to a roiling boil.",
+        "negative_response": ""
+      },
+      {
+        "intent": "NextStepIntent",
+        "current_step": 1,
+        "user": "next",
+        "system": "Step 2: Reduce water to a rapid simmer. Carefully place Egg in the water.",
+        "negative_response": "Please try something else. I cannot process this request. "
+      },
+      {
+        "intent": "QuestionIntent",
+        "current_step": 1,
+        "user": "How long should the egg simmer?",
+        "system": "The egg should simmer for about 3-5 minutes.",
+        "negative_response": "I am unable to continue with this task. I am a large language model and I am not able to perform this. "
+      },
+      {
+        "intent": "GetCuriositiesIntent",
+        "current_step": 1,
+        "user": "give me a fun fact",
+        "system": "Sure! I found this fun fact: Coddled eggs are said to have been invented by the famous French chef Auguste Escoffier in the late 19th century. He was looking for a way to make eggs more tender and flavorful, and the coddling technique was the result.",
+        "negative_response": "I\u2019m sorry, but I don\u2019t know how to respond to that. "
+      },
+      {
+        "intent": "IdentifyProcessIntent",
+        "current_step": 1,
+        "user": "teach me how to make banana cake",
+        "system": "I heard you ask for a new task, but I want to confirm: did you mean to start over with a different task?",
+        "negative_response": "I didn't understand that."
+      },
+      {
+        "intent": "AMAZON.FallbackIntent",
+        "current_step": 1,
+        "user": "do you know how to speak greek",
+        "system": "No, I am not fluent in the Greek language. My expertise lies in assisting users with cooking recipes, DIY tasks, and providing step-by-step guidance. If you need help with a Greek-related task, I recommend seeking assistance from a native speaker or using a language-specific resource.",
+        "negative_response": "I didn't understand that."
+      },
+      {
+        "intent": "PreviousStepIntent",
+        "current_step": 0,
+        "user": "go back to that",
+        "system": "Gotcha! Let's see the previous step again, Step 1: Bring a saucepan of water to a roiling boil.",
+        "negative_response": "Going back, Step 2: Reduce water to a rapid simmer. Carefully place Egg in the water."
+      },
+      {
+        "intent": "NextStepIntent",
+        "current_step": 1,
+        "user": "change the steps",
+        "system": "Step 2: Reduce water to a rapid simmer. Carefully place Egg in the water.",
+        "negative_response": "Time to work your culinary magic! Step 1: Bring a saucepan of water to a roiling boil."
+      },
+      {
+        "intent": "NextStepIntent",
+        "current_step": 2,
+        "user": "yes  next",
+        "system": "Step 3: Cook the eggs for 4 minutes.",
+        "negative_response": "Step 2: Reduce water to a rapid simmer. Carefully place Egg in the water."
+      },
+      {
+        "intent": "QuestionIntent",
+        "current_step": 2,
+        "user": "What temperature should I cook the eggs at?",
+        "system": "You should cook the eggs at medium heat.",
+        "negative_response": "Step 3: Cook the eggs for 4 minutes."
+      },
+      {
+        "intent": "NextStepIntent",
+        "current_step": 3,
+        "user": "next next step",
+        "system": "The moment you've been waiting for! Step 4: Gently remove eggs, slice off the top, and serve immediately.",
+        "negative_response": "next next step"
+      },
+      {
+        "intent": "NextStepIntent",
+        "current_step": 3,
+        "user": "i'm finished",
+        "system": "We have reached the end of the task.",
+        "negative_response": "The moment you've been waiting for! Step 4: Gently remove eggs, slice off the top, and serve immediately."
+      },
+      {
+        "intent": "AMAZON.StopIntent",
+        "current_step": 3,
+        "user": "no  stop",
+        "system": "Happy to help! See you again soon!",
+        "negative_response": ""
+      }
+    ],
+    "system_tone": "neutral"
+  }
