@@ -2,7 +2,6 @@ import embeddings
 import pprint as pp
 
 def text_query(client, index_name, query):
-    query = "lemonade"
     query_emb = embeddings.encode(query)
 
     query_denc = {
