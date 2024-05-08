@@ -3,6 +3,7 @@ import torch
 import torch.nn.functional as F
 import pickle
 import os
+import json
 
 # Import custom modules
 import index_management as im
@@ -29,58 +30,58 @@ def encode(texts):
     # Normalize embeddings
     embeddings = F.normalize(embeddings, p=2, dim=1)
     
-    return embeddings
-
-
-# Load model from HuggingFace Hub
-tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/msmarco-distilbert-base-v2")
-model = AutoModel.from_pretrained("sentence-transformers/msmarco-distilbert-base-v2")     
+    return embeddings      
+        
+def get_embeddings():
+    if os.path.exists('embeddings.pkl'):
+        # Load embeddings from a file
+        print('Embeddings file found. Loading embeddings...')
+        with open('embeddings.pkl', 'rb') as f:
+            return pickle.load(f)
+    else:
+        print('Embeddings file not found. Generating embeddings...')
+        return add_embeddings()
     
-# Check if the file is not empty
-if os.path.exists('embeddings.pkl'):
-    # Load embeddings from a file
-    with open('embeddings.pkl', 'rb') as f:
-        embeddings = pickle.load(f)
-
-    # Access the embeddings
-    titles_emb = embeddings['titles']
-    descriptions_emb = embeddings['descriptions']
-    time_emb = embeddings['time']
-    difficulty_emb = embeddings['difficulty']
-    #ingredients_emb = embeddings['ingredients']
-    #instructions_emb = embeddings['instructions']
-else:
+def add_embeddings():
     titles = []
     descriptions = []
     times = []
     difficulties = []
     # ingredients = []
     # instructions = []
+    
     for recipe in im.recipes_data.values():
         titles.append(recipe["displayName"] if recipe["displayName"] is not None else 'None') 
         descriptions.append(recipe["description"] if recipe["description"] is not None else 'None')
         times.append(str(recipe["totalTimeMinutes"]) if recipe["totalTimeMinutes"] is not None else 'None')        
         difficulties.append(recipe["difficultyLevel"] if recipe["difficultyLevel"] is not None else 'None')
         # for ingredient in recipe["ingredients"]:
-        #     ingredients.append(ingredient["ingredient"] if ingredient["ingredient"] is not None else 'None')
+        #     ingredients.append(ingredient if ingredient is not None else 'None')
         # for instruction in recipe["instructions"]:
         #     instructions.append(instruction["stepText"] if instruction["stepText"] is not None else 'None')
         
     # Calculate embeddings
     titles_emb = encode(titles)
     descriptions_emb = encode(descriptions)
-    time_emb = encode(times)
-    difficulty_emb = encode(difficulties)
-    #ingredients_emb = encode(ingredients)
-    #instructions_emb = encode(instructions)
+    times_emb = encode(times)
+    difficulties_emb = encode(difficulties)
+    # ingredients_emb = encode(ingredients)
+    # instructions_emb = encode(instructions)
 
     # Save embeddings to a file
     with open('embeddings.pkl', 'wb') as f:
         pickle.dump({
             'titles': titles_emb,
             'descriptions': descriptions_emb,
-            'time': time_emb,
-            'difficulty': difficulty_emb,
-            #'ingredients': ingredients_emb,
-            #'instructions': instructions_emb
+            'times': times_emb,
+            'difficulties': difficulties_emb,
+            # 'ingredients': ingredients_emb,
+            # 'instructions': instructions_emb
         }, f)
+        
+    with open('embeddings.pkl', 'rb') as f:
+        return pickle.load(f)
+
+# Load model from HuggingFace Hub
+tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/msmarco-distilbert-base-v2")
+model = AutoModel.from_pretrained("sentence-transformers/msmarco-distilbert-base-v2")   

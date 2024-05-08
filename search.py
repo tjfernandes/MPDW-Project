@@ -5,7 +5,7 @@ def text_query(client, index_name, query):
     query_emb = embeddings.encode(query)
 
     query_denc = {
-    'size': 5,
+    'size': 3,
     '_source': ['title', 'description', 'ingredients'],
     "query": {
             "knn": {

@@ -1,6 +1,9 @@
 from config import CONFIG
 from opensearchpy import OpenSearch
 import json as json
+import torch
+
+import embeddings as emb
 
 
 host = CONFIG["host"]
@@ -210,9 +213,9 @@ def create_index(client):
 
 
 def add_recipes_to_index(client, recipes_data):
-    #Comment line if you need to add to index
+    embeddings = emb.get_embeddings()
+    
     for recipe_id in recipes_data:
-        
         # Extract and format ingredients data
         ingredients = []
         for ingredient_data in recipes_data[recipe_id]['ingredients']:
@@ -257,10 +260,17 @@ def add_recipes_to_index(client, recipes_data):
             "instructions": instructions,
             "nutrients": nutrients,  # Assign nutrients here
             "time": recipes_data[recipe_id]['totalTimeMinutes'],
+            
+            "title_embedding": embeddings['titles'][int(recipe_id)].numpy(),
+            "description_embedding": embeddings['descriptions'][int(recipe_id)].numpy(),
+            "time_embedding": embeddings['times'][int(recipe_id)].numpy(),
+            "difficulty_embedding": embeddings['difficulties'][int(recipe_id)].numpy(),
+            # "ingredients_embedding": recipes_data[recipe_id]['ingredients_embedding'],
+            # "instructions_embedding": recipes_data[recipe_id]['instructions_embedding'],
         }
         
         # Add recipe to index
-        return client.index(index=index_name, id=int(recipe_id), body=recipe)
+        client.index(index=index_name, id=int(recipe_id), body=recipe)
 
 
 def delete_recipes_from_index(client, recipe_book_len):
@@ -279,3 +289,4 @@ with open("recipes_data.json", "r") as read_file:
     recipes_data = json.load(read_file)
 
 recipe_book_len = len(recipes_data)
+
