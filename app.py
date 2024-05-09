@@ -27,27 +27,35 @@ if __name__ == "__main__":
         
         print("What would you like to do?")
         print("     1. Search for a recipe")
-        print("     2. Search for an image")
-        print("     3. bla bla bla")
-        print("     4. Delete the index and start over")
-        print("     5. Exit")
+        print("     2. Search for an image using text")
+        print("     3. Search for text using image")
+        print("     4. Search for image using image")
+        print("     5. Delete the index and start over")
+        print("     6. Exit")
         
         switch = {
             '1': lambda: (
-                query := input('>> USER: '),
+                query := input('>> USER:    '),
                 search.text_query(client, index_name, query)
             ),
             '2': lambda: (
-                query := input('>> USER:'),
-                search.get_image_from_text_query(client, index_name, query)
+                query := input('>> USER (text-to-image):    '),
+                search.text_to_image(client, index_name, query)
             ),
-            '3': lambda: print('3 Command'), # Do something else
+            '3': lambda: (
+                url := input('>> USER (image-to-text):    '),
+                search.image_to_text(client, index_name, url)
+            ),
             '4': lambda: (
+                url := input('>> USER (image-to-image):    '),
+                search.image_to_image(client, index_name, url)
+            ),
+            '5': lambda: (
                 print('\nDeleting index:'),
                 print('Response index deletion: \n', im.delete_index(client, index_name)),
                 init_index(client) 
             ), # Do something else
-            '5': lambda: exit()
+            '6': lambda: exit()
         }
 
         choice = input('Choose an option: ')

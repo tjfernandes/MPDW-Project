@@ -11,6 +11,27 @@ import json
 # Import custom modules
 import index_management as im
 
+def decoding(sentence):
+    generation_config = model.generation_config
+    generation_config.do_sample = False
+    generation_config.num_beams = 1
+    generation_config.max_new_tokens = 150
+    
+    encoded_input_ids_1 = tokenizer(sentence, return_tensors="pt", add_special_tokens=False).input_ids.to(device)
+    
+    with torch.no_grad():
+        generation_output = model.generate(
+            input_ids = encoded_input_ids_1,
+            generation_config = generation_config,
+            return_dict_in_generate = True,
+            output_scores = True
+        )
+
+    for s in generation_output.sequences:
+        output = tokenizer.decode(s, skip_special_tokens=True)
+        print(output)
+    
+
 #Mean Pooling - Take average of all tokens
 def mean_pooling(model_output, attention_mask):
     token_embeddings = model_output.last_hidden_state #First element of model_output contains all token embeddings
@@ -95,9 +116,12 @@ def add_embeddings():
             
         with open('embeddings.pkl', 'wb') as f:
             pickle.dump({
-                'titles': titles_emb,
-                'descriptions': descriptions_emb,
-                'images': images_emb
+                'titles_embedded': titles_emb,
+                'titles_str': titles,
+                'descriptions_embedded': descriptions_emb,
+                'descriptions_str': descriptions,
+                'images_embedded': images_emb,
+                'images_urls': images
             }, f)
     except Exception as e:
         print(f"Error while writing embeddings to file: {e}")

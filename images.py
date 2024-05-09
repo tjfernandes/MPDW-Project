@@ -24,8 +24,6 @@ image_inputs = processor(images=images, return_tensors="pt", padding=True).to(de
 with torch.no_grad():
     image_embeddings = model.get_image_features(**image_inputs)
 
-print("Type of images_embeddings in images: ", type(image_embeddings))
-
 # Encode text query
 text_inputs = processor(text=["a photo of pesto"], return_tensors="pt").to(device)
 with torch.no_grad():

@@ -205,20 +205,20 @@ def create_index(client):
                         }
                     }
                 },
-                # "image_embedding": {"type": "binary"}
-                "image_embedding": {
-                    "type": "knn_vector",
-                    "dimension": 994,
-                    "method": {
-                        "name": "hnsw",
-                        "space_type": "innerproduct",
-                        "engine": "faiss",
-                        "parameters": {
-                            "ef_construction": 256,
-                            "m": 48
-                        }
-                    }
-                }
+                #"image_embedding": {"type": "binary"}
+                # "image_embedding": {
+                #     "type": "knn_vector",
+                #     "dimension": 512,
+                #     "method": {
+                #         "name": "hnsw",
+                #         "space_type": "innerproduct",
+                #         "engine": "faiss",
+                #         "parameters": {
+                #             "ef_construction": 256,
+                #             "m": 48
+                #         }
+                #     }
+                # }
             }
         }
     }
@@ -264,7 +264,17 @@ def add_recipes_to_index(client, recipes_data):
                     }
         else:
             nutrients = None
-        
+            
+        # if embeddings['images_embedded'] is not None:
+        #     print("First embedding: ", embeddings['images_embedded'][0])
+        # else:
+        #     print("Image embeddings are None")
+            
+        # image_embeddings = None
+        # if embeddings and 'images_embedded' in embeddings and int(recipe_id) < len(embeddings['images_embedded']):
+        #     image_embeddings = embeddings['images_embedded'][int(recipe_id)].numpy()
+            
+
         recipe = {
             "recipe_id": recipe_id,
             "title": recipes_data[recipe_id]['displayName'],
@@ -275,11 +285,11 @@ def add_recipes_to_index(client, recipes_data):
             "nutrients": nutrients,  # Assign nutrients here
             "time": recipes_data[recipe_id]['totalTimeMinutes'],
             
-            "title_embedding": embeddings['titles'][int(recipe_id)].numpy(),
-            "description_embedding": embeddings['descriptions'][int(recipe_id)].numpy(),
-            #"image_embedding": embeddings['images'][int(recipe_id)].numpy(),
-
+            "title_embedding": embeddings['titles_embedded'][int(recipe_id)].numpy(),
+            "description_embedding": embeddings['descriptions_embedded'][int(recipe_id)].numpy(),
+            #"image_embedding": image_embeddings if image_embeddings is not None else torch.zeros(512).numpy()
         }
+
         
         # Add recipe to index
         client.index(index=index_name, id=int(recipe_id), body=recipe)
