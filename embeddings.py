@@ -1,8 +1,11 @@
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModel, CLIPProcessor, CLIPModel
+
 import torch
 import torch.nn.functional as F
 import pickle
 import os
+from PIL import Image
+import requests
 import json
 
 # Import custom modules
@@ -31,6 +34,29 @@ def encode(texts):
     embeddings = F.normalize(embeddings, p=2, dim=1)
     
     return embeddings      
+
+def encode_images(image_urls):
+    # Load the pre-trained CLIP model and processor
+    processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+    model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
+    
+    # Load all images
+    images = [Image.open(requests.get(url, stream=True).raw).resize((224, 224)) for url in image_urls]
+
+    # Encode images
+    image_inputs = processor(
+        images=images,
+        return_tensors="pt",
+        padding=True
+    ).to(device)
+    with torch.no_grad():
+        image_embeddings = model.get_image_features(**image_inputs)
+    
+    return image_embeddings
+
+def encode_images_in_batches(images, batch_size=32):
+        for i in range(0, len(images), batch_size):
+            yield encode_images(images[i:i+batch_size])
         
 def get_embeddings():
     if os.path.exists('embeddings.pkl'):
@@ -45,43 +71,57 @@ def get_embeddings():
 def add_embeddings():
     titles = []
     descriptions = []
-    times = []
-    difficulties = []
-    # ingredients = []
-    # instructions = []
+    images = []
     
     for recipe in im.recipes_data.values():
         titles.append(recipe["displayName"] if recipe["displayName"] is not None else 'None') 
         descriptions.append(recipe["description"] if recipe["description"] is not None else 'None')
-        times.append(str(recipe["totalTimeMinutes"]) if recipe["totalTimeMinutes"] is not None else 'None')        
-        difficulties.append(recipe["difficultyLevel"] if recipe["difficultyLevel"] is not None else 'None')
-        # for ingredient in recipe["ingredients"]:
-        #     ingredients.append(ingredient if ingredient is not None else 'None')
-        # for instruction in recipe["instructions"]:
-        #     instructions.append(instruction["stepText"] if instruction["stepText"] is not None else 'None')
+        for image in recipe["images"]:
+            images.append(image['url'] if image['url'] is not None else 'None')
         
     # Calculate embeddings
     titles_emb = encode(titles)
     descriptions_emb = encode(descriptions)
-    times_emb = encode(times)
-    difficulties_emb = encode(difficulties)
-    # ingredients_emb = encode(ingredients)
-    # instructions_emb = encode(instructions)
+    images_emb = encode_images(images)
+    # images_emb_generator = encode_images_in_batches(images)
+
+    # all_images_emb = []
 
     # Save embeddings to a file
-    with open('embeddings.pkl', 'wb') as f:
-        pickle.dump({
-            'titles': titles_emb,
-            'descriptions': descriptions_emb,
-            'times': times_emb,
-            'difficulties': difficulties_emb,
-            # 'ingredients': ingredients_emb,
-            # 'instructions': instructions_emb
-        }, f)
+    try:
+        # for images_emb in images_emb_generator:
+        #     # Append each batch of image embeddings to the list
+        #     all_images_emb.extend(images_emb)
+            
+        with open('embeddings.pkl', 'wb') as f:
+            pickle.dump({
+                'titles': titles_emb,
+                'descriptions': descriptions_emb,
+                'images': images_emb
+            }, f)
+    except Exception as e:
+        print(f"Error while writing embeddings to file: {e}")
+        return None
+            
+    # Free up GPU memory
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
         
-    with open('embeddings.pkl', 'rb') as f:
-        return pickle.load(f)
+    # Load embeddings from file
+    try:
+        with open('embeddings.pkl', 'rb') as f:
+            return pickle.load(f)
+    except EOFError:
+        print("Error: The embeddings file is empty or not completely written.")
+        return None
+    except Exception as e:
+        print(f"Error while loading embeddings from file: {e}")
+        return None
+    
+    
+    
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
 # Load model from HuggingFace Hub
 tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/msmarco-distilbert-base-v2")
-model = AutoModel.from_pretrained("sentence-transformers/msmarco-distilbert-base-v2")   
+model = AutoModel.from_pretrained("sentence-transformers/msmarco-distilbert-base-v2").to(device) 

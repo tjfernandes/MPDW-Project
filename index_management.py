@@ -51,10 +51,10 @@ def create_index(client):
     index_body = {
     "settings":{
         "index":{
-            "number_of_replicas":0,
-            "number_of_shards":4,
-            "refresh_interval":"1s",
-            "knn":"true"
+            "number_of_replicas": 0,
+            "number_of_shards": 4,
+            "refresh_interval": "1s",
+            "knn": "true"
         }
     },
     "mappings": {
@@ -204,6 +204,20 @@ def create_index(client):
                           "m":48
                         }
                     }
+                },
+                # "image_embedding": {"type": "binary"}
+                "image_embedding": {
+                    "type": "knn_vector",
+                    "dimension": 994,
+                    "method": {
+                        "name": "hnsw",
+                        "space_type": "innerproduct",
+                        "engine": "faiss",
+                        "parameters": {
+                            "ef_construction": 256,
+                            "m": 48
+                        }
+                    }
                 }
             }
         }
@@ -263,10 +277,8 @@ def add_recipes_to_index(client, recipes_data):
             
             "title_embedding": embeddings['titles'][int(recipe_id)].numpy(),
             "description_embedding": embeddings['descriptions'][int(recipe_id)].numpy(),
-            "time_embedding": embeddings['times'][int(recipe_id)].numpy(),
-            "difficulty_embedding": embeddings['difficulties'][int(recipe_id)].numpy(),
-            # "ingredients_embedding": recipes_data[recipe_id]['ingredients_embedding'],
-            # "instructions_embedding": recipes_data[recipe_id]['instructions_embedding'],
+            #"image_embedding": embeddings['images'][int(recipe_id)].numpy(),
+
         }
         
         # Add recipe to index

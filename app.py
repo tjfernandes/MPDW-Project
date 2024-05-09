@@ -27,9 +27,9 @@ if __name__ == "__main__":
         
         print("What would you like to do?")
         print("     1. Search for a recipe")
-        print("     2. Delete the index and start over")
+        print("     2. Search for an image")
         print("     3. bla bla bla")
-        print("     4. bla bla bla")
+        print("     4. Delete the index and start over")
         print("     5. Exit")
         
         switch = {
@@ -38,12 +38,15 @@ if __name__ == "__main__":
                 search.text_query(client, index_name, query)
             ),
             '2': lambda: (
+                query := input('>> USER:'),
+                search.get_image_from_text_query(client, index_name, query)
+            ),
+            '3': lambda: print('3 Command'), # Do something else
+            '4': lambda: (
                 print('\nDeleting index:'),
                 print('Response index deletion: \n', im.delete_index(client, index_name)),
                 init_index(client) 
-            ),
-            '3': lambda: print('3 Command'), # Do something else
-            '4': lambda: print('4 Command'), # Do something else
+            ), # Do something else
             '5': lambda: exit()
         }
 
