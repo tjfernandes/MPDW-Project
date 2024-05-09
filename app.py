@@ -2,6 +2,7 @@
 from config import CONFIG
 import index_management as im
 import search    
+import planllm as llm
 
 def init_index(client):
     # Create the index
@@ -30,8 +31,10 @@ if __name__ == "__main__":
         print("     2. Search for an image using text")
         print("     3. Search for text using image")
         print("     4. Search for image using image")
-        print("     5. Delete the index and start over")
-        print("     6. Exit")
+        print("     5. Start conversation") 
+        print("     6. Continue conversation") 
+        print("     7. Delete the index and start over")
+        print("     8. Exit")
         
         switch = {
             '1': lambda: (
@@ -51,11 +54,33 @@ if __name__ == "__main__":
                 search.image_to_image(client, index_name, url)
             ),
             '5': lambda: (
+                ## Use PlanLLM to make conversations
+                print("Enter the recipe you want to cook!"),
+                query := input('>> USER:    '),
+                recipe := search.text_query(client, index_name, query),
+                print("Enter the tone of the conversation"),
+                tone := input('>> USER:    '),
+                llm.start_conversation(recipe, tone)
+            ),
+            '6': lambda: (
+                print("Enter the dialog_id you want to continue!"),
+                dialog_id := input('>> USER:    '),
+                # if dialog_id not in llm.dialogs:
+                #     print("Dialog not found! Please start a new conversation!"),
+                #     exit(),
+                dialog := llm.get_dialog_by_id(dialog_id),
+                recipe_name := dialog['task']['recipe']['displayName'],
+                print("Dialog chosen: ", recipe_name),
+                print("Enter the text you want to continue with!"),
+                text := input('>> USER:    '),
+                llm.makeRequest(dialog, text)
+            ),
+            '7': lambda: (
                 print('\nDeleting index:'),
                 print('Response index deletion: \n', im.delete_index(client, index_name)),
                 init_index(client) 
             ), # Do something else
-            '6': lambda: exit()
+            '8': lambda: exit()
         }
 
         choice = input('Choose an option: ')
