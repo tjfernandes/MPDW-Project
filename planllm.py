@@ -5,6 +5,8 @@ import json
 external_url = "https://twiz.novasearch.org"
 max_timeout = 10
 
+dialog = {}
+
 def get_new_id():
     # Check if the file exists
     if os.path.exists('dialogs.json'):
@@ -16,7 +18,7 @@ def get_new_id():
     else:
         return 0
 
-def start_conversation(recipe, tone):
+def start_conversation(recipe):
     dialog_id = get_new_id()
     recipe_name = recipe['_source']['title']
     
@@ -24,9 +26,9 @@ def start_conversation(recipe, tone):
     instructions = [{'stepText': step['text']} for step in recipe['_source']['instructions']]
     
     # Define the dictionary
-    dialog = {
+    dialog_data = {
         "dialog_id": str(dialog_id),
-        "system_tone": tone,
+        "system_tone": "neutral",
         "task": {
             "recipe": {
                 "displayName": recipe_name,
@@ -38,11 +40,12 @@ def start_conversation(recipe, tone):
         ]
     }
     
-    print("Dialog id: ", dialog['dialog_id'])
-    makeRequest(dialog, "Let's start this recipe!")
+    dialog.update(dialog_data)
+    
+    return makeRequest("Let's start this recipe!")
     
     
-def makeRequest(dialog, text):
+def makeRequest(text):
     url = os.path.join(external_url, "structured")
     
     if len(dialog['dialog']) > 0:
@@ -71,8 +74,6 @@ def makeRequest(dialog, text):
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
-        print("POST request successful for URL:", url)
-        print("Response text:", response.text)
     
         dialog['dialog'][-1]["system"] = response.text
         
@@ -99,6 +100,8 @@ def makeRequest(dialog, text):
         # Write the dialogs back to the file
         with open('dialogs.json', 'w') as f:
             json.dump(dialogs, f)
+            
+        return response.text[1:-2]
     else:
         print("POST request failed with status code:", response.status_code)
         

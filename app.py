@@ -3,6 +3,7 @@ from config import CONFIG
 import index_management as im
 import search    
 import planllm as llm
+import dialog
 
 def init_index(client):
     # Create the index
@@ -31,10 +32,11 @@ if __name__ == "__main__":
         print("     2. Search for an image using text")
         print("     3. Search for text using image")
         print("     4. Search for image using image")
-        print("     5. Start conversation") 
-        print("     6. Continue conversation") 
-        print("     7. Delete the index and start over")
-        print("     8. Exit")
+        print("     5. Make PlanLLM request") 
+        print("     6. Continue PlanLLM requests") 
+        print("     7. Start Dialog")
+        print("     8. Delete the index and start over")
+        print("     9. Exit")
         
         switch = {
             '1': lambda: (
@@ -60,7 +62,7 @@ if __name__ == "__main__":
                 recipe := search.text_query(client, index_name, query),
                 print("Enter the tone of the conversation"),
                 tone := input('>> USER:    '),
-                llm.start_conversation(recipe, tone)
+                llm.start_conversation(recipe)
             ),
             '6': lambda: (
                 print("Enter the dialog_id you want to continue!"),
@@ -76,11 +78,15 @@ if __name__ == "__main__":
                 llm.makeRequest(dialog, text)
             ),
             '7': lambda: (
+                # Start a new dialog
+                dialog.start_new_dialog(client, index_name)
+            ),
+            '8': lambda: (
                 print('\nDeleting index:'),
                 print('Response index deletion: \n', im.delete_index(client, index_name)),
                 init_index(client) 
             ), # Do something else
-            '8': lambda: exit()
+            '9': lambda: exit()
         }
 
         choice = input('Choose an option: ')

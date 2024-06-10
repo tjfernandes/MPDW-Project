@@ -16,7 +16,7 @@ def text_query(client, index_name, query):
 
     query_denc = {
         'size': 3,
-        '_source': ['recipe_id', 'title', 'description', 'instructions'],
+        '_source': ['recipe_id', 'title', 'description', 'instructions', "ingredients"],
         "query": {
             "bool": {
                 "must": [
@@ -53,14 +53,16 @@ def text_query(client, index_name, query):
         index = index_name
     )
 
-    #print('\nSearch results:')
-    #pp.pprint(response)
+    # Sort the hits by score in descending order
+    sorted_hits = sorted(response['hits']['hits'], key=lambda hit: hit['_score'], reverse=True)
     
-    # Sort the hits by score and get the recipe_id of the hit with the highest score
-    highest_score_hit = max(response['hits']['hits'], key=lambda hit: hit['_score'])
-    recipe_id = highest_score_hit['_source']['recipe_id']
+    # Get the top 3 hits based on score
+    top_3_hits = sorted_hits[:3]
+    
+    # Extract recipe_ids from the top 3 hits
+    top_3_recipe_ids = [hit['_source']['recipe_id'] for hit in top_3_hits]
 
-    return highest_score_hit
+    return top_3_hits
 
 
 def text_to_image(client, index_name, query_txt):

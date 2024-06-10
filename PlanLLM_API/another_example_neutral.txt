@@ -268,7 +268,7 @@
     },
     "dialog": [
       {
-        "intent": "StartStepsIntent",
+        "intent": "SelectIntent",
         "current_step": 0,
         "user": "i would like to start this chat",
         "system": "Let the culinary adventure begin! Step 1: Bring a saucepan of water to a roiling boil.",
