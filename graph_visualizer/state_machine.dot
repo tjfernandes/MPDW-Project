@@ -21,6 +21,8 @@ digraph {
       StepState -> StepState [label="PreviousStepIntent\n NextStepIntent"];
       StepState -> CompleteState [label="LastStepEvent\n GoodbyeIntent"];
       ChoiceState -> ConfirmState [label="SelectIntent"];
+      CompleteState -> GoodbyeState [label="NoIntent\n GoodbyeIntent"];
+      BackboneFlow -> GoodbyeState [label="GoodbyeIntent"];
    }
    subgraph cluster_ListOptionsFlow {
       label = "ListOptionsFlow";

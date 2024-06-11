@@ -80,12 +80,7 @@ def start_new_dialog(client, index_name):
                     "client": client,
                     "index_name": index_name}
     
-    intent_handlers = {
-        "StopIntent": handle_stop,
-        "NoIntent": handle_no,
-        "PreviousStepIntent": handle_previous_step,
-        "LastStepEvent": handle_last_step,
-    }
+    
     
     agent_u = "BOT: " + dialog_manager.launch_result["response"]
     state_manager["agent_u"] = agent_u
@@ -105,30 +100,11 @@ def start_new_dialog(client, index_name):
         # turn intent into event and trigger a transition in the state machine
         event = dialog_manager.event_type(state_manager)
         result = dialog_manager.trigger(event(), state_manager)
-            
+        
         agent_u = result["response"]
         print(agent_u)
         state_manager["agent_u"] = agent_u
-    
-def handle_stop(state_manager, client, index_name):
-    print("BOT: Alright, Goodbye!")
-    return
-    
-def handle_no(state_manager, client, index_name):
-    agent_u = "BOT: "
-    agent_u += "Alright, let me know if you need anything else."
-    print(agent_u)
-    state_manager["agent_u"] = agent_u
-    
-def handle_previous_step(state_manager, client, index_name):
-    print("Let's go back to the previous step.")
-    
-def handle_last_step(state_manager, client, index_name):
-    agent_u = "BOT: "
-    agent_u += llm.make_request("next")
-    agent_u += "Do you want to learn more recipes? (Yes/No)"
-    print(agent_u)
-    state_manager["agent_u"] = agent_u
-    
-def handle_unknown_intent():
-    print("I'm sorry, I didn't understand that. Could you please repeat that?")
+        
+        # if current state is GoodbyeState, break the loop
+        if dialog_manager.checkpoint[-1][1].__class__.__name__ == "GoodbyeState":
+            break

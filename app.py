@@ -24,9 +24,10 @@ if __name__ == "__main__":
         init_index(client)
         
     
-    print("Welcome to this Recipe Helper!")
+    print("######### Welcome to this Recipe Helper!")
     while True:
         
+        print("\n")
         print("What would you like to do?")
         print("     1. Search for a recipe")
         print("     2. Search for an image using text")
