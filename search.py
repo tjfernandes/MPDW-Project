@@ -15,19 +15,11 @@ def text_query(client, index_name, query):
     query_emb = embeddings.encode(query)
 
     query_denc = {
-        'size': 3,
+        'size': 15,
         '_source': ['recipe_id', 'title', 'description', 'instructions', "ingredients"],
         "query": {
             "bool": {
                 "must": [
-                    {  
-                        "knn": {
-                            "title_embedding": {
-                                "vector": query_emb[0].numpy(),
-                                "k": 2
-                            }
-                        },
-                    },
                     {
                         "match": {
                             "title": query
@@ -37,7 +29,7 @@ def text_query(client, index_name, query):
                 "should": [
                     {
                         "knn": {
-                            "description_embedding": {
+                            "title_embedding": {
                                 "vector": query_emb[0].numpy(),
                                 "k": 2
                             }
@@ -56,13 +48,17 @@ def text_query(client, index_name, query):
     # Sort the hits by score in descending order
     sorted_hits = sorted(response['hits']['hits'], key=lambda hit: hit['_score'], reverse=True)
     
-    # Get the top 3 hits based on score
-    top_3_hits = sorted_hits[:3]
+    # # Get the top 3 hits based on score
     
-    # Extract recipe_ids from the top 3 hits
-    top_3_recipe_ids = [hit['_source']['recipe_id'] for hit in top_3_hits]
+    # for hit in sorted_hits:
+    #     pp.pprint("Title: " + hit['_source']['title'] + " with id: " + hit['_source']['recipe_id'] + " and with score: " + str(hit['_score']))
+    
+    # top_3_hits = sorted_hits[:3]
+    
+    # # Extract recipe_ids from the top 3 hits
+    # top_3_recipe_ids = [hit['_source']['recipe_id'] for hit in top_3_hits]
 
-    return top_3_hits
+    return sorted_hits
 
 
 def text_to_image(client, index_name, query_txt):

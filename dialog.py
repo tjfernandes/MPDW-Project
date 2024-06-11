@@ -2,7 +2,6 @@ import os
 import numpy as np # type: ignore
 import json
 import torch # type: ignore
-import search
 import planllm as llm
 
 from dialog_manager.example.dialog_factory.dialog_manager import DialogManager
@@ -15,6 +14,21 @@ from transformers import ( # type: ignore
     AutoTokenizer,
     pipeline
 )
+
+allowed_intents = [
+    "FallbackIntent",
+    "IdentifyProcessIntent",
+    "MoreOptionsIntent",
+    "NextStepIntent",
+    "PreviousStepIntent",
+    "NoIntent",
+    "StopIntent",
+    "YesIntent",
+    "OutOfScopeIntent",
+    "SelectIntent",
+    "QuestionIntent",
+    "MoreDetailIntent",
+]
 
 
 
@@ -61,6 +75,7 @@ def start_new_dialog(client, index_name):
     state_manager = {"intent": "",
                     "recipe": {},
                     "candidate_recipes": [],
+                    "current_recipe_idx": 0,
                     "step": 0,
                     "agent_u": "",
                     "user_u": "",
@@ -69,7 +84,7 @@ def start_new_dialog(client, index_name):
                     "index_name": index_name}
     
     # Start the dialog
-    agent_u = "BOT: " + dialog_manager.launch_result["response"]
+    agent_u = dialog_manager.launch_result["response"]
     state_manager["agent_u"] = agent_u
     print(agent_u)
 
@@ -77,9 +92,19 @@ def start_new_dialog(client, index_name):
     while True:
         agent_u = state_manager["agent_u"] 
         user_u = input('User: ')
+        if user_u == "":
+            continue
         state_manager["user_u"] = user_u
         
         intent = predict_intent(agent_u, user_u)
+        if intent not in allowed_intents:
+            print("Sorry... I'm not sure I can do that.")
+            continue
+        
+        if intent == "IdentifyProcessIntent":
+            state_manager["candidate_recipes"] = []
+            state_manager["current_recipe_idx"] = 0
+        
         state_manager["intent"] = intent
         
         slots = slot_filling(agent_u, user_u)
@@ -92,7 +117,8 @@ def start_new_dialog(client, index_name):
         
         agent_u = result["response"]
         print(agent_u)
-        if event.__name__ == "FallbackIntent":
+        
+        if result["screen"] == "fallback":
             continue
         
         state_manager["agent_u"] = agent_u
