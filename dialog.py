@@ -16,19 +16,6 @@ from transformers import ( # type: ignore
     pipeline
 )
 
-relevant_events = [
-    "GreetingIntent",
-    "IdentifyProcessIntent",
-    "OutOfScopeIntent",
-    "YesIntent",
-    "NoIntent",
-    "NextStepIntent",
-    "StopIntent",
-    "SelectIntent",
-    "StartStepsIntent",
-    "LastStepEvent",
-]
-
 
 
 ## Intent Detection setup
@@ -76,6 +63,7 @@ def start_new_dialog(client, index_name):
                     "candidate_recipes": [],
                     "step": 0,
                     "agent_u": "",
+                    "user_u": "",
                     "slots": "",
                     "client": client,
                     "index_name": index_name}
@@ -89,6 +77,7 @@ def start_new_dialog(client, index_name):
     while True:
         agent_u = state_manager["agent_u"] 
         user_u = input('User: ')
+        state_manager["user_u"] = user_u
         
         intent = predict_intent(agent_u, user_u)
         state_manager["intent"] = intent
