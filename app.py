@@ -62,7 +62,7 @@ if __name__ == "__main__":
                 recipe := search.text_query(client, index_name, query),
                 print("Enter the tone of the conversation"),
                 tone := input('>> USER:    '),
-                llm.start_conversation(recipe)
+                llm.start_conversation(recipe, "Let's start cooking!")
             ),
             '6': lambda: (
                 print("Enter the dialog_id you want to continue!"),
@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 print("Dialog chosen: ", recipe_name),
                 print("Enter the text you want to continue with!"),
                 text := input('>> USER:    '),
-                llm.makeRequest(dialog, text)
+                llm.make_request(dialog, text)
             ),
             '7': lambda: (
                 # Start a new dialog

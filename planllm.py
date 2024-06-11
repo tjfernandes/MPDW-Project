@@ -18,7 +18,7 @@ def get_new_id():
     else:
         return 0
 
-def start_conversation(recipe):
+def start_conversation(recipe, text):
     dialog_id = get_new_id()
     recipe_name = recipe['_source']['title']
     
@@ -42,16 +42,18 @@ def start_conversation(recipe):
     
     dialog.update(dialog_data)
     
-    return makeRequest("Let's start this recipe!")
+    return make_request(text)
     
     
-def makeRequest(text):
+def make_request(text):
     url = os.path.join(external_url, "structured")
     
     if len(dialog['dialog']) > 0:
         last_dialog = dialog['dialog'][-1]
         current_step = int(last_dialog['current_step'])
-        if 'Step' in last_dialog['system']:
+        if "previous" in text:
+            current_step -= 1
+        elif 'Step' in last_dialog['system']:
             current_step += 1
     else:
         current_step = 0
