@@ -1,7 +1,7 @@
 import os
-import numpy as np
+import numpy as np # type: ignore
 import json
-import torch
+import torch # type: ignore
 import search
 import planllm as llm
 
@@ -10,7 +10,7 @@ from dialog_manager.example.states import *
 from dialog_manager.example.events import *
 
 
-from transformers import (
+from transformers import ( # type: ignore
     AutoModelForSequenceClassification,
     AutoTokenizer,
     pipeline
@@ -31,7 +31,7 @@ relevant_events = [
 
 
 
-## Intent Detection
+## Intent Detection setup
 with open("twiz-data/all_intents.json", 'r') as all_intents_json:
     all_intents = json.load(all_intents_json)
         
@@ -80,12 +80,12 @@ def start_new_dialog(client, index_name):
                     "client": client,
                     "index_name": index_name}
     
-    
-    
+    # Start the dialog
     agent_u = "BOT: " + dialog_manager.launch_result["response"]
     state_manager["agent_u"] = agent_u
     print(agent_u)
 
+    # Start the dialog loop
     while True:
         agent_u = state_manager["agent_u"] 
         user_u = input('User: ')
@@ -103,6 +103,9 @@ def start_new_dialog(client, index_name):
         
         agent_u = result["response"]
         print(agent_u)
+        if event.__name__ == "FallbackIntent":
+            continue
+        
         state_manager["agent_u"] = agent_u
         
         # if current state is GoodbyeState, break the loop
